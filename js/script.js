@@ -5,15 +5,18 @@ for(let i=0;i<liste_h2.length;i++)
 {
 	liste_h2[i].addEventListener("click",function () {
 		kids = this.closest("section").getElementsByTagName("article");
+		console.log(kids);
 		for (let j=0; j<kids.length; j++)
 		{
 			if (kids[j].classList.contains("visible"))
 			{
 				kids[j].classList.replace("visible", "cache");
+				console.log("cache");
 			}
 			else
 			{
 				kids[j].classList.replace("cache", "visible");
+				console.log("visible");
 			}
 		}
 	});
