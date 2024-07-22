@@ -29,3 +29,21 @@ section , article {
 	margin-bottom:10px;
 	margin-left:15px;
 }
+
+article {
+	display:none;
+}
+
+h2 {
+	background-color:#424242;
+}
+
+.cache {
+	display : none ;
+}
+
+.visible {
+	display : block ;
+}
+
+
