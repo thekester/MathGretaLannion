@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/style.css">
+
+        <title>générateur exercice sur les changements de base</title>
+    </head>
+    <body>
+	
+		<style>
+			table {
+			border : solid 1px white;
+			}
+			td {
+			border : solid 1px white;
+			width:200px;
+			height:40px;
+			text-align:center;
+			}
+
+			cache {
+			display:none;
+			}
+
+			#affiche {
+			margin:25px 0px 25px 0px;
+			}
+		</style>
+		<header>
+			<p><a href="https://maristudy.github.io/MathGretaLannion/"> gitpage </a> </p>
+		</header>
+		<main>
+			<a href="../index.html">Retour à l'accueil</a>
+			<div class="enonce">
+			
+			</div>
+			<p id="affiche">Afficher la réponse</p>
+			<div class="reponse">
+			
+			</div>
+
+		</main>
+		<footer>
+			<p>Le footer </p>
+		</footer>
+		
+	<!--	<script src="js/script.js" ></script>	-->
+		<script>
+			function decihexa(nb) // avec nb inferieur ou egal à 255
+			{
+				let result="";
+				let q=nb;
+				while (q!=0)
+				{
+					q=Math.floor(nb/16);
+					r=nb%16;
+					nb=q;
+					if(r<10)
+					{
+						result=r+result;
+					}
+					if(r==10)
+					{
+						result="A"+result;
+					}
+					if(r==11)
+					{
+						result="B"+result;
+					}					
+					if(r==12)
+					{
+						result="C"+result;
+					}					
+					if(r==13)
+					{
+						result="D"+result;
+					}					
+					if(r==14)
+					{
+						result="E"+result;
+					}					
+					if(r==15)
+					{
+						result="F"+result;
+					}					
+				}
+				return(result);
+			}
+			
+			function hexabin(nb) // nb sur 8 bits
+			{
+				result="";
+				for(i=0;i<nb.length;i++)
+				{
+					if(nb[i]=="0")
+					{
+						result=result+"0000 ";
+					}
+					if(nb[i]=="1")
+					{
+						result=result+"0001 ";
+					}
+					if(nb[i]=="2")
+					{
+						result=result+"0010 ";
+					}
+					if(nb[i]=="3")
+					{
+						result=result+"0011 ";
+					}
+					if(nb[i]=="4")
+					{
+						result=result+"0100 ";
+					}
+					if(nb[i]=="5")
+					{
+						result=result+"0101 ";
+					}
+					if(nb[i]=="6")
+					{
+						result=result+"0110 ";
+					}
+					if(nb[i]=="7")
+					{
+						result=result+"0111 ";
+					}
+					if(nb[i]=="8")
+					{
+						result=result+"1000 ";
+					}
+					if(nb[i]=="9")
+					{
+						result=result+"1001 ";
+					}
+					if(nb[i]=="A")
+					{
+						result=result+"1010 ";
+					}
+					if(nb[i]=="B")
+					{
+						result=result+"1011 ";
+					}
+					if(nb[i]=="C")
+					{
+						result=result+"1100 ";
+					}
+					if(nb[i]=="D")
+					{
+						result=result+"1101 ";
+					}
+					if(nb[i]=="E")
+					{
+						result=result+"1110 ";
+					}
+					if(nb[i]=="F")
+					{
+						result=result+"1111 ";
+					}
+				}
+				console.log(nb+" "+result);
+				return(result)
+			}
+			
+			
+			let deci1,hexa1,bin1,deci2,hexa2,bin2,deci3,hexa3,bin3;
+			deci1=Math.floor(Math.random()*236) + 20; //nombre compris entre 20 et 255
+			deci2=Math.floor(Math.random()*236) + 20;
+			while (deci1==deci2)
+			{
+				deci2=Math.floor(Math.random()*236) + 20;
+			}
+			deci3=Math.floor(Math.random()*236) + 20;
+			while ((deci1==deci3) || (deci2==deci3))
+			{
+				deci3=Math.floor(Math.random()*236) + 20;
+			}			
+			hexa1=decihexa(deci1)
+			hexa2=decihexa(deci2)
+			hexa3=decihexa(deci3)
+			bin1=hexabin(hexa1)
+			bin2=hexabin(hexa2)
+			bin3=hexabin(hexa3)
+			console.log("deci1 = "+deci1+" hexa = "+hexa1+" bin = "+bin1 );
+			console.log("deci2 = "+deci2+" hexa = "+hexa2+" bin = "+bin2 );
+			console.log("deci3 = "+deci3+" hexa = "+hexa3+" bin = "+bin3 );
+			
+			enonce = document.getElementsByClassName("enonce")[0];
+			enonce.innerHTML= "<table>"+
+				"<tr>	<td>Décimal</td>	<td>Hexadécimal</td>	<td>Binaire</td>	</tr>"+
+				"<tr>	<td>"+deci1+"</td>	<td>&nbsp;</td>			<td>&nbsp;</td>	</tr>"+
+				"<tr>	<td>&nbsp;</td>		<td>"+hexa2+"</td>	<td>&nbsp;</td>	</tr>"+
+				"<tr>	<td>&nbsp;</td>		<td>&nbsp;</td>			<td>"+bin3+"</td>	</tr>"+
+			"</table>";
+
+			reponse = document.getElementsByClassName("reponse")[0];
+			reponse.innerHTML= "<table id=\"tabreponse\" class=\"cache\">"+
+				"<tr>	<td>Décimal</td>	<td>Hexadécimal</td>	<td>Binaire</td>	</tr>"+
+				"<tr>	<td>"+deci1+"</td>	<td>"+hexa1+"</td>	<td>"+bin1+"</td>	</tr>"+
+				"<tr>	<td>"+deci2+"</td>	<td>"+hexa2+"</td>	<td>"+bin2+"</td>	</tr>"+
+				"<tr>	<td>"+deci3+"</td>	<td>"+hexa3+"</td>	<td>"+bin3+"</td>	</tr>"+
+			"</table>"+
+			"<p id=\"preponse\" class=\"cache\">Pour la conversion hexa vers binaire ( et réciproquement ) on utilise le tableau<br>"+
+			"Pour la conversion du décimal vers une autre base, on utilise les divisions successives ( de 2 pour le binaire et de 16 pour l'hexa )<br>"+
+			"Pour la conversion du binaire vers le décimal, on utilise les puissances de 2 ( ou les puissances de 16 pour l'hexa )</p>";
+			;		
+
+			affiche=document.getElementById("affiche");
+			affiche.addEventListener("click",() => {
+				tab=document.getElementById("tabreponse").classList.toggle("cache");
+				p= document.getElementById("preponse").classList.toggle("cache");
+		
+		
+			});
+			
+		</script>
+		
+	</body>
+</html>
