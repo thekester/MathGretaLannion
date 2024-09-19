@@ -75,23 +75,23 @@
 	{
 		let result="";
 		if (expr[0]==1)
-			result+="abc+"
+			result+="a b c + "
 		if (expr[1]==1)
-			result+="abcbarre+"
+			result+="a b cbarre + "
 		if (expr[2]==1)
-			result+="abbarrecbarre+"
+			result+="a bbarre cbarre + "
 		if (expr[3]==1)
-			result+="abbarrec+"
+			result+="a bbarre c + "
 		if (expr[4]==1)
-			result+="abarrebc+"
+			result+="abarre b c + "
 		if (expr[5]==1)
-			result+="abarrebcbarre+"
+			result+="abarre b cbarre + "
 		if (expr[6]==1)
-			result+="abarrebbarrecbarre+"
+			result+="abarre bbarre cbarre + "
 		if (expr[7]==1)
-			result+="abarrebbarrec+"
+			result+="abarre bbarre c + "
 			
-		result=result.substring(0, result.length-1); //retire le dernier +
+		result=result.substring(0, result.length-2); //retire le dernier +
 		
 		return (expr2html(result))
 			
