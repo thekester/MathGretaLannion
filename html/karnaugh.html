@@ -74,9 +74,9 @@
 			function expr2html(expr)
 			{
 				let result=expr;
-				result=result.replaceAll("abarre","<span class=\"barre\">a</span>");
-				result=result.replaceAll("bbarre","<span class=\"barre\">b</span>");
-				result=result.replaceAll("cbarre","<span class=\"barre\">c</span>");
+				result=result.replaceAll("abarre","<span class=\"barre\">a</span>&nbsp;");
+				result=result.replaceAll("bbarre","<span class=\"barre\">b</span>&nbsp;");
+				result=result.replaceAll("cbarre","<span class=\"barre\">c</span>&nbsp;");
 				return result;
 			}
 	
@@ -106,26 +106,27 @@
 			
 			}
 	
-			function karnaugh2tab(bin, barre) // barre==1 pour barre(bin)
-			{
-				let result="<table>";
-				result+="<tr><td>"+bin[0]+"</td><td>"+bin[1]+"</td><td>"+bin[2]+"</td><td>"+bin[3]+"</td></tr>";
-				result+="<tr><td>"+bin[4]+"</td><td>"+bin[5]+"</td><td>"+bin[6]+"</td><td>"+bin[7]+"</td></tr>";
-				result+="</table>";
+	function karnaugh2tab(bin, barre) // barre==1 pour barre(bin)
+	{
+		let result="<table>";
+		result+="<tr><td></td><td>bc</td><td>b<span class=\"barre\">c</span></td><td><span class=\"barre\">b</span>&nbsp;<span class=\"barre\">c</span></td><td><span class=\"barre\">b</span>c</td></tr>";
+		result+="<tr><td>a</td><td>"+bin[0]+"</td><td>"+bin[1]+"</td><td>"+bin[2]+"</td><td>"+bin[3]+"</td></tr>";
+		result+="<tr><td><span class=\"barre\">a</span></td><td>"+bin[4]+"</td><td>"+bin[5]+"</td><td>"+bin[6]+"</td><td>"+bin[7]+"</td></tr>";
+		result+="</table>";
 		
-				if(barre==0)
-				{
-					result=result.replaceAll("0","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
-					result=result.replaceAll("1","<span class=\"plein\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
-				}
-				else
-				{
-					result=result.replaceAll("1","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
-					result=result.replaceAll("0","<span class=\"plein\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");			
-				}
+		if(barre==0)
+		{
+			result=result.replaceAll("0","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+			result=result.replaceAll("1","<span class=\"plein\">***</span>");
+		}
+		else
+		{
+			result=result.replaceAll("1","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+			result=result.replaceAll("0","<span class=\"plein\">***</span>");			
+		}
 		
-				return result;
-			}
+		return result;
+	}
 
 		</script>
 
