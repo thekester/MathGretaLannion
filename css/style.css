@@ -5,18 +5,47 @@
     box-sizing: border-box;
 }
 
+/* Variables CSS pour les thèmes */
+:root {
+    --background-color: #f4f4f4;
+    --text-color: #333;
+    --link-color: #0066cc;
+    --header-footer-bg: #333;
+    --header-footer-text: #fff;
+    --article-bg: #fff;
+    --article-border: #0066cc;
+    --h2-bg-color: #0066cc;
+    --h2-text-color: #fff;
+    --h3-color: #0066cc;
+}
+
+body.dark-mode {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --link-color: #8ab4f8;
+    --header-footer-bg: #1f1f1f;
+    --header-footer-text: #e0e0e0;
+    --article-bg: #1e1e1e;
+    --article-border: #8ab4f8;
+    --h2-bg-color: #1f1f1f;
+    --h2-text-color: #e0e0e0;
+    --h3-color: #8ab4f8;
+}
+
 /* Style du corps de la page */
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
     font-family: 'Open Sans', sans-serif;
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Liens */
 a {
-    color: #0066cc;
+    color: var(--link-color);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
@@ -25,23 +54,44 @@ a:hover {
 
 /* En-tête et pied de page */
 header, footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--header-footer-bg);
+    color: var(--header-footer-text);
     padding: 20px 0;
     text-align: center;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header a, footer a {
-    color: #fff;
+    color: var(--header-footer-text);
 }
 
 header a:hover, footer a:hover {
     text-decoration: underline;
 }
 
+/* Bouton du mode sombre */
+#toggle-dark-mode {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background-color: transparent;
+    color: var(--header-footer-text);
+    border: 2px solid var(--header-footer-text);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#toggle-dark-mode:hover {
+    background-color: var(--header-footer-text);
+    color: var(--header-footer-bg);
+}
+
 /* Contenu principal */
 main {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -51,26 +101,30 @@ h1 {
     font-size: 2.5em;
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 h2 {
-    background-color: #0066cc;
-    color: #fff;
+    background-color: var(--h2-bg-color);
+    color: var(--h2-text-color);
     padding: 10px;
     margin-top: 30px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h3 {
     font-size: 1.5em;
     margin-top: 20px;
-    color: #0066cc;
+    color: var(--h3-color);
+    transition: color 0.3s ease;
 }
 
 h4, h5, h6 {
-    color: #333;
+    color: var(--text-color);
     margin-top: 15px;
+    transition: color 0.3s ease;
 }
 
 /* Sections et articles */
@@ -79,10 +133,16 @@ section {
 }
 
 article {
-    background-color: #fff;
+    background-color: var(--article-bg);
     padding: 15px;
-    border-left: 4px solid #0066cc;
+    border-left: 4px solid var(--article-border);
     margin-top: 10px;
+    overflow: hidden;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        max-height 0.5s ease-out,
+        padding 0.3s ease-out;
 }
 
 /* Listes */
@@ -97,44 +157,33 @@ li {
 }
 
 /* Paragraphes dans les articles */
-article p, article li {
+article p, article li, article div {
     margin-bottom: 10px;
 }
 
 /* Classes pour afficher/masquer les articles */
 .cache {
+    max-height: 0;
+    padding: 0 15px;
     display: none;
 }
 
 .visible {
+    max-height: 2000px; /* Ajustez cette valeur si nécessaire */
+    padding: 15px;
     display: block;
 }
 
 /* Boutons ou éléments cliquables */
 button, .button {
-    background-color: #0066cc;
+    background-color: var(--link-color);
     color: #fff;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover, .button:hover {
     background-color: #005bb5;
-}
-
-/* Transition pour les articles */
-article {
-    overflow: hidden;
-    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
-}
-
-.cache {
-    max-height: 0;
-    padding: 0 15px;
-}
-
-.visible {
-    max-height: 1000px; /* Ajustez cette valeur si nécessaire */
-    padding: 15px;
 }

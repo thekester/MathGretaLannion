@@ -1,158 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <title>Les fonctions logiques avec Mode Sombre</title>
+    <!-- Lien vers le fichier CSS principal -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Lien vers Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #FFFFFF;
+            --text-color: #000000;
+            --table-border-color: #000000;
+            --link-color: #0066cc;
+            --button-bg-color: #000000;
+            --button-text-color: #FFFFFF;
+            --header-bg-color: #f4f4f4;
+        }
 
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #E0E0E0;
+            --table-border-color: #E0E0E0;
+            --link-color: #8ab4f8;
+            --button-bg-color: #E0E0E0;
+            --button-text-color: #121212;
+            --header-bg-color: #1f1f1f;
+        }
+
+        /* Styles généraux */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Liens */
+        a, a:visited {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles spécifiques */
+        table {
+            margin-top: 10px;
+            border: solid 1px var(--table-border-color);
+            border-spacing: 0;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+
+        td {
+            border: solid 1px var(--table-border-color);
+            height: 35px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        tr {
+            border-spacing: 0;
+        }
+
+        /* Classes pour cacher/afficher les éléments */
+        .cache {
+            display: none;
+        }
+
+        /* Conteneur principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour le header */
+        header {
+            background-color: var(--header-bg-color);
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Styles pour le footer */
+        footer {
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Style pour le bouton afficher la réponse */
+        #affiche {
+            margin: 25px 0;
+            padding: 10px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #affiche:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-	<style>
-			tr {
-				border-spacing: 0;
-			}
-			
-			table {
-				border : solid 1px black;
-				border-spacing: 0;
-			}
-			
-			td {
-				border : solid 1px black;
-				height:35px;
-				text-align:center;
-				border-spacing: 0;
-			}
-			
-			.cache {
-			display:none;
-			}
+    <!-- Bouton pour le mode sombre -->
+    <button id="toggle-dark-mode">Mode Sombre</button>
 
-			#affiche {
-			margin:25px 0px 25px 0px;
-			}
-			
-			body {
-				display:flex;
-				color:#ffffff;
-				background-color:#7f7f7f;
-			}
-			
-			a, a:visited {
-				color:#ffffff;
-			}
-			
-	</style>
-<script>
+    <div class="container">
+        <header>
+            <p>
+                <a href="https://maristudy.github.io/MathGretaLannion">GitPage</a> <br>
+                <a href="../index.html">Retour à l'accueil</a>
+            </p>
+            <h1>Les fonctions logiques</h1>
+        </header>
 
-	//prendre un nombre et le convertir en binaire puis en hexa
+        <main>
+            <!-- Contenu généré par JavaScript sera inséré ici -->
+            <div id="content"></div>
+        </main>
 
-	var debut=new Array("( a et b )","( non(a) et b )","( non(a) et non(b) )","( a et non(b) )");
-	var milieu=new Array(" et "," ou ");
-	var fin=new Array("( c )","( non(c) )");
+        <footer>
+            <p>&copy; 2024 Math BTS SIO Greta Lannion</p>
+        </footer>
+    </div>
 
-	var DebutFL = Math.floor(Math.random()*4);
-	var MilieuFL = Math.floor(Math.random()*2);
-	var FinFL = Math.floor(Math.random()*2);
+    <!-- Script JavaScript -->
+    <script>
+        // Définition des éléments de la fonction logique
+        var debut = ["( a et b )", "( non(a) et b )", "( non(a) et non(b) )", "( a et non(b) )"];
+        var milieu = [" et ", " ou "];
+        var fin = ["( c )", "( non(c) )"];
 
-	var FonctionLogique = "( "+ debut[DebutFL] + milieu[MilieuFL] + fin[FinFL] +" ) ";
+        var DebutFL = Math.floor(Math.random() * 4);
+        var MilieuFL = Math.floor(Math.random() * 2);
+        var FinFL = Math.floor(Math.random() * 2);
 
-	document.write("<div><p><a href=\"https://maristudy.github.io/MathGretaLannion\"> gitpage </a> <br><a href=\"../index.html\">Retour à l'accueil</a></p><center><b> - Les fonctions logiques - </b><BR></center>");
-	document.write("<HR>");
+        var FonctionLogique = "( " + debut[DebutFL] + milieu[MilieuFL] + fin[FinFL] + " ) ";
 
-	document.write("Donner la table de v&eacute;rit&eacute; de la fonction logique suivante...<BR>");
-	document.write("Fonction logique : " + FonctionLogique );
+        var contentDiv = document.getElementById('content');
 
-	document.write("<BR><BR>");
-	document.write("<table border = 1 >");
-	document.write("<tr><td width = 15px>a</td><td width = 15px>b</td><td width = 15px>c</td><td width = 550px></td></tr>");
+        // Création du contenu principal
+        var mainContent = '<hr>';
+        mainContent += '<p>Donner la table de vérité de la fonction logique suivante...</p>';
+        mainContent += '<p><strong>Fonction logique :</strong> ' + FonctionLogique + '</p>';
+        mainContent += '<br>';
+        mainContent += '<table>';
+        mainContent += '<tr><td>a</td><td>b</td><td>c</td><td></td></tr>';
 
-		for(j=0;j<8;j++)
-		{
-		
-		document.write("<tr></td><td height = 30px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;</td></tr>");
-	}
+        for (var j = 0; j < 8; j++) {
+            mainContent += '<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        }
 
-	document.write("</table> <p id=\"affiche\">Afficher la réponse</p>");
+        mainContent += '</table>';
+        mainContent += '<p id="affiche">Afficher la réponse</p>';
 
-			
-			
-document.write("<p style=\"page-break-before: always;\"> </div>");
+        // Ajout du contenu principal à la page
+        contentDiv.innerHTML = mainContent;
 
-	document.write("<div id=\"tabreponse\" class=\"cache\"><BR><BR><BR><BR><BR><HR style=\"margin:6px;\"><center><b>CORRECTION - Les fonctions logiques - </b></center><HR>");
-	document.write("Fonction logique : " + FonctionLogique );
-	document.write("<BR>");
-	document.write("<table border = 1 >");
-	document.write("<tr><td width = 15px>a</td><td width = 15px>b</td><td width = 15px>c</td><td><font size=2>"+debut[DebutFL]+"</font></td><td><font size=2>"+fin[FinFL]+"</font></td><td><font size=2>"+FonctionLogique+"</font></td></tr>");
+        // Création de la correction cachée
+        var correctionDiv = document.createElement('div');
+        correctionDiv.id = 'tabreponse';
+        correctionDiv.classList.add('cache');
 
-		for(j=0;j<8;j++)
-		{
-		var tempo = j.toString(2);
-		if(tempo.length==1)
-		{
-		a=0;
-		b=0;
-		c=tempo[0];
+        var correctionContent = '<hr style="margin:6px;">';
+        correctionContent += '<center><b>CORRECTION - Les fonctions logiques - </b></center><hr>';
+        correctionContent += '<p><strong>Fonction logique :</strong> ' + FonctionLogique + '</p>';
+        correctionContent += '<br>';
+        correctionContent += '<table>';
+        correctionContent += '<tr><td>a</td><td>b</td><td>c</td><td>' + debut[DebutFL] + '</td><td>' + fin[FinFL] + '</td><td>' + FonctionLogique + '</td></tr>';
 
-		}
-		if(tempo.length==2)
-		{
-		a=0;
-		b=tempo[0];
-		c=tempo[1];
-		}
-		if(tempo.length==3)
-		{
+        for (var j = 0; j < 8; j++) {
+            var tempo = j.toString(2).padStart(3, '0');
+            var a = parseInt(tempo[0]);
+            var b = parseInt(tempo[1]);
+            var c = parseInt(tempo[2]);
 
-		a=tempo[0];
-		b=tempo[1];
-		c=tempo[2];
-		}
-		if(tempo.length==4)
-		{
-		a=tempo[0];
-		b=tempo[1];
-		c=tempo[2];
+            var ba = Boolean(a);
+            var bb = Boolean(b);
+            var bc = Boolean(c);
 
-		}
+            var e;
+            switch (DebutFL) {
+                case 0: e = ba && bb; break;
+                case 1: e = !ba && bb; break;
+                case 2: e = !ba && !bb; break;
+                case 3: e = ba && !bb; break;
+            }
+            var ee = e ? 1 : 0;
 
-		if (a==0) { var ba=new Boolean(false); }
-		if (a==1) { var ba=new Boolean(true); }  
-		if (b==0) { var bb=new Boolean(false); }
-		if (b==1) { var bb=new Boolean(true); }
-		if ( DebutFL==0) { var e =new Boolean(); e = ( ba.valueOf() && bb.valueOf() ); }
-		if ( DebutFL==1) { var e =new Boolean(); e = ( (!(ba.valueOf())) && bb.valueOf() ); }
-		if ( DebutFL==2) { var e =new Boolean(); e = ( (!(ba.valueOf())) && (!(bb.valueOf())) ); }
-		if ( DebutFL==3) { var e =new Boolean(); e = ( ba.valueOf() && (!(bb.valueOf())) ); }
-		if ( e.valueOf()==true ) { ee=1; }
-		if ( e.valueOf()==false ) { ee=0; }    
-		if (c==0) { var bc=new Boolean(false); }
-		if (c==1) { var bc=new Boolean(true); }  
+            var f = FinFL === 0 ? bc : !bc;
+            var ff = f ? 1 : 0;
 
-		if ( FinFL==0) { var f =new Boolean(); f = ( bc.valueOf()  ); }
-		if ( FinFL==1) { var f =new Boolean(); f = ( (!(bc.valueOf())) ); }
+            var g = MilieuFL === 0 ? (e && f) : (e || f);
+            var gg = g ? 1 : 0;
 
-		if ( f.valueOf()==true ) { ff=1; }
-		if ( f.valueOf()==false ) { ff=0; }
-		if ( MilieuFL==0) { var g =new Boolean(); g = ( ee.valueOf() && ff.valueOf() ); }
-		if ( MilieuFL==1) { var g =new Boolean(); g = ( ee.valueOf() || ff.valueOf() ); }
-		if ( g.valueOf()==true ) { gg=1; }
-		if ( g.valueOf()==false ) { gg=0; }
-      
-		document.write("<tr></td><td height = 30px>"+a+"</td><td>"+b+"</td><td>"+c+"</td><td>"+ee+"</td><td>"+ff+"</td><td>"+gg+"</td></tr>");
-		}
+            correctionContent += '<tr><td>' + a + '</td><td>' + b + '</td><td>' + c + '</td><td>' + ee + '</td><td>' + ff + '</td><td>' + gg + '</td></tr>';
+        }
 
-	document.write("</table></div>");
+        correctionContent += '</table>';
+        correctionDiv.innerHTML = correctionContent;
 
-document.write("<p style=\"page-break-before: always;\">");
+        // Ajout de la correction à la page
+        contentDiv.appendChild(correctionDiv);
 
+        // Gestion de l'affichage de la réponse
+        var afficheBtn = document.getElementById('affiche');
+        afficheBtn.addEventListener('click', function () {
+            correctionDiv.classList.toggle('cache');
+            this.textContent = correctionDiv.classList.contains('cache') ? 'Afficher la réponse' : 'Masquer la réponse';
+        });
 
-			affiche=document.getElementById("affiche");
-			affiche.addEventListener("click",() => {
-				tab=document.getElementById("tabreponse").classList.toggle("cache");
-		
-			});
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
 
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
 
-</script>
-
-
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
+    </script>
 </body>
-</html> 
+</html>

@@ -1,151 +1,223 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'exercice sur les changements de base</title>
+    <!-- Lien vers le fichier CSS principal -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #FFFFFF;
+            --text-color: #000000;
+            --table-border-color: #000000;
+            --header-bg-color: #f4f4f4;
+            --button-bg-color: #000000;
+            --button-text-color: #ffffff;
+            --link-color: #0066cc;
+        }
 
-        <title>générateur exercice sur les changements de base</title>
-    </head>
-    <body>
-	
-		<style>
-			table {
-			border : solid 1px white;
-			}
-			td {
-			border : solid 1px white;
-			width:200px;
-			height:40px;
-			text-align:center;
-			}
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #E0E0E0;
+            --table-border-color: #E0E0E0;
+            --header-bg-color: #1f1f1f;
+            --button-bg-color: #E0E0E0;
+            --button-text-color: #121212;
+            --link-color: #8ab4f8;
+        }
 
-			cache {
-			display:none;
-			}
+        /* Styles généraux */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-			#affiche {
-			margin:25px 0px 25px 0px;
-			}
-		</style>
-		<header>
-			<p><a href="https://maristudy.github.io/MathGretaLannion/"> gitpage </a> </p>
-		</header>
-		<main>
-			<a href="../index.html">Retour à l'accueil</a>
-			<div class="enonce">
-			
-			</div>
-			<p id="affiche">Afficher la réponse</p>
-			<div class="reponse">
-			
-			</div>
+        /* Styles du header */
+        header {
+            background-color: var(--header-bg-color);
+            padding: 10px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
 
-		</main>
-		<footer>
-			<p>Le footer </p>
-		</footer>
-		
-		<script>
-			
-			
-			let deci1,hexa1,bin1,deci2,hexa2,bin2,deci3,hexa3,bin3;
-			deci1=Math.floor(Math.random()*236) + 20; //nombre compris entre 20 et 255
-			deci2=Math.floor(Math.random()*236) + 20;
-			while (deci1==deci2)
-			{
-				deci2=Math.floor(Math.random()*236) + 20;
-			}
-			deci3=Math.floor(Math.random()*236) + 20;
-			while ((deci1==deci3) || (deci2==deci3))
-			{
-				deci3=Math.floor(Math.random()*236) + 20;
-			}			
-				hexa1=deci1.toString(16).toUpperCase();
-				hexa2=deci2.toString(16).toUpperCase();
-				hexa3=deci3.toString(16).toUpperCase();
-				bin1=deci1.toString(2);
-				bin2=deci2.toString(2);
-				bin3=deci3.toString(2);
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-				if(bin1.length == 5)
-				{
-					bin1="000"+bin1;
-				}
-			
-				if(bin1.length == 6)
-				{
-					bin1="00"+bin1;
-				}
-				
-				if(bin1.length == 7)
-				{
-					bin1="0"+bin1;
-				}
-				
-				if(bin2.length == 5)
-				{
-					bin2="000"+bin2;
-				}
-			
-				if(bin2.length == 6)
-				{
-					bin2="00"+bin2;
-				}
-				
-				if(bin2.length == 7)
-				{
-					bin2="0"+bin2;
-				}
-				
-				if(bin3.length == 5)
-				{
-					bin3="000"+bin3;
-				}
-			
-				if(bin3.length == 6)
-				{
-					bin3="00"+bin3;
-				}
-				
-				if(bin3.length == 7)
-				{
-					bin3="0"+bin3;
-				}
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
 
-				bin1=bin1[0]+bin1[1]+bin1[2]+bin1[3]+" "+bin1[4]+bin1[5]+bin1[6]+bin1[7];	
-				bin2=bin2[0]+bin2[1]+bin2[2]+bin2[3]+" "+bin2[4]+bin2[5]+bin2[6]+bin2[7];	
-				bin3=bin3[0]+bin3[1]+bin3[2]+bin3[3]+" "+bin3[4]+bin3[5]+bin3[6]+bin3[7];	
-			
-			enonce = document.getElementsByClassName("enonce")[0];
-			enonce.innerHTML= "<table>"+
-				"<tr>	<td>Décimal</td>	<td>Hexadécimal</td>	<td>Binaire</td>	</tr>"+
-				"<tr>	<td>"+deci1+"</td>	<td>&nbsp;</td>			<td>&nbsp;</td>	</tr>"+
-				"<tr>	<td>&nbsp;</td>		<td>"+hexa2+"</td>	<td>&nbsp;</td>	</tr>"+
-				"<tr>	<td>&nbsp;</td>		<td>&nbsp;</td>			<td>"+bin3+"</td>	</tr>"+
-			"</table>";
+        /* Styles spécifiques */
+        table {
+            margin-top: 10px;
+            border: solid 1px var(--table-border-color);
+            border-spacing: 0;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+        
+        td {
+            border: solid 1px var(--table-border-color);
+            width: 33%;
+            height: 40px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
 
-			reponse = document.getElementsByClassName("reponse")[0];
-			reponse.innerHTML= "<table id=\"tabreponse\" class=\"cache\">"+
-				"<tr>	<td>Décimal</td>	<td>Hexadécimal</td>	<td>Binaire</td>	</tr>"+
-				"<tr>	<td>"+deci1+"</td>	<td>"+hexa1+"</td>	<td>"+bin1+"</td>	</tr>"+
-				"<tr>	<td>"+deci2+"</td>	<td>"+hexa2+"</td>	<td>"+bin2+"</td>	</tr>"+
-				"<tr>	<td>"+deci3+"</td>	<td>"+hexa3+"</td>	<td>"+bin3+"</td>	</tr>"+
-			"</table>"+
-			"<p id=\"preponse\" class=\"cache\">Pour la conversion hexa vers binaire ( et réciproquement ) on utilise le tableau<br>"+
-			"Pour la conversion du décimal vers une autre base, on utilise les divisions successives ( de 2 pour le binaire et de 16 pour l'hexa )<br>"+
-			"Pour la conversion du binaire vers le décimal, on utilise les puissances de 2 ( ou les puissances de 16 pour l'hexa )</p>";
-			;		
+        /* Liens */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-			affiche=document.getElementById("affiche");
-			affiche.addEventListener("click",() => {
-				tab=document.getElementById("tabreponse").classList.toggle("cache");
-				p= document.getElementById("preponse").classList.toggle("cache");
-		
-		
-			});
-			
-		</script>
-		
-	</body>
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton pour afficher la réponse */
+        #affiche {
+            margin: 25px 0;
+            padding: 10px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #affiche:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles pour la réponse */
+        .cache {
+            display: none;
+        }
+
+        /* Styles pour le footer */
+        footer {
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p><a href="https://maristudy.github.io/MathGretaLannion/">GitPage</a></p>
+        <!-- Bouton pour le mode sombre -->
+        <button id="toggle-dark-mode">Mode Sombre</button>
+    </header>
+    <main>
+        <a href="../index.html">Retour à l'accueil</a>
+        <div class="enonce"></div>
+        <p id="affiche">Afficher la réponse</p>
+        <div class="reponse"></div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Math BTS SIO Greta Lannion</p>
+    </footer>
+    
+    <!-- Script JavaScript -->
+    <script>
+        // Génération de l'exercice
+        let deci1, hexa1, bin1, deci2, hexa2, bin2, deci3, hexa3, bin3;
+        deci1 = Math.floor(Math.random() * 236) + 20; // Nombre compris entre 20 et 255
+        deci2 = Math.floor(Math.random() * 236) + 20;
+        while (deci1 == deci2) {
+            deci2 = Math.floor(Math.random() * 236) + 20;
+        }
+        deci3 = Math.floor(Math.random() * 236) + 20;
+        while ((deci1 == deci3) || (deci2 == deci3)) {
+            deci3 = Math.floor(Math.random() * 236) + 20;
+        }
+
+        hexa1 = deci1.toString(16).toUpperCase();
+        hexa2 = deci2.toString(16).toUpperCase();
+        hexa3 = deci3.toString(16).toUpperCase();
+        bin1 = deci1.toString(2).padStart(8, '0');
+        bin2 = deci2.toString(2).padStart(8, '0');
+        bin3 = deci3.toString(2).padStart(8, '0');
+
+        // Insertion d'un espace au milieu
+        bin1 = bin1.substring(0, 4) + " " + bin1.substring(4);
+        bin2 = bin2.substring(0, 4) + " " + bin2.substring(4);
+        bin3 = bin3.substring(0, 4) + " " + bin3.substring(4);
+
+        let enonce = document.getElementsByClassName("enonce")[0];
+        enonce.innerHTML = "<table>" +
+            "<tr><td>Décimal</td><td>Hexadécimal</td><td>Binaire</td></tr>" +
+            "<tr><td>" + deci1 + "</td><td>&nbsp;</td><td>&nbsp;</td></tr>" +
+            "<tr><td>&nbsp;</td><td>" + hexa2 + "</td><td>&nbsp;</td></tr>" +
+            "<tr><td>&nbsp;</td><td>&nbsp;</td><td>" + bin3 + "</td></tr>" +
+            "</table>";
+
+        let reponse = document.getElementsByClassName("reponse")[0];
+        reponse.innerHTML = "<table id=\"tabreponse\" class=\"cache\">" +
+            "<tr><td>Décimal</td><td>Hexadécimal</td><td>Binaire</td></tr>" +
+            "<tr><td>" + deci1 + "</td><td>" + hexa1 + "</td><td>" + bin1 + "</td></tr>" +
+            "<tr><td>" + deci2 + "</td><td>" + hexa2 + "</td><td>" + bin2 + "</td></tr>" +
+            "<tr><td>" + deci3 + "</td><td>" + hexa3 + "</td><td>" + bin3 + "</td></tr>" +
+            "</table>" +
+            "<p id=\"preponse\" class=\"cache\">Pour la conversion hexa vers binaire (et réciproquement), on utilise le tableau.<br>" +
+            "Pour la conversion du décimal vers une autre base, on utilise les divisions successives (de 2 pour le binaire et de 16 pour l'hexa).<br>" +
+            "Pour la conversion du binaire vers le décimal, on utilise les puissances de 2 (ou les puissances de 16 pour l'hexa).</p>";
+
+        let affiche = document.getElementById("affiche");
+        affiche.addEventListener("click", () => {
+            document.getElementById("tabreponse").classList.toggle("cache");
+            document.getElementById("preponse").classList.toggle("cache");
+        });
+
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
+
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
+    </script>
+</body>
 </html>

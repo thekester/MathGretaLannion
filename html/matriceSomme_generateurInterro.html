@@ -1,137 +1,267 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <title>Générateur d'exercices sur les matrices - Mode Sombre</title>
+    <!-- Lien vers Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #7f7f7f;
+            --text-color: #ffffff;
+            --border-color: #000000;
+            --link-color: #ffffff;
+            --highlight-color: grey;
+            --bar-color: #000000;
+            --font-family: 'Open Sans', sans-serif;
+        }
 
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --border-color: #e0e0e0;
+            --link-color: #8ab4f8;
+            --highlight-color: #555555;
+            --bar-color: #e0e0e0;
+        }
+
+        /* Styles généraux */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Liens */
+        a, a:visited {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: var(--text-color);
+            color: var(--background-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            z-index: 1000;
+        }
+
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles spécifiques */
+        tr {
+            border-spacing: 0;
+        }
+
+        table {
+            border: solid 1px var(--border-color);
+            border-spacing: 0;
+        }
+
+        td {
+            border: solid 1px var(--border-color);
+            height: 25px;
+            width: 25px;
+            text-align: center;
+            border-spacing: 0;
+        }
+
+        .cache {
+            display: none;
+        }
+
+        #affiche {
+            margin: 25px 0px;
+        }
+
+        .vide {
+            background-color: var(--background-color);
+        }
+
+        .barre {
+            border-top: solid 2px var(--bar-color);
+        }
+
+        .plein {
+            background-color: var(--highlight-color);
+            color: var(--highlight-color);
+            width: 35px;
+            height: 35px;
+        }
+
+        @media print {
+            #saut_page {
+                page-break-before: always;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Bouton pour le mode sombre -->
+    <button id="toggle-dark-mode">Mode Sombre</button>
 
-<div id="enonce"> </div>
+    <div id="enonce"> </div>
 
-	<style>
-			tr {
-				border-spacing: 0;
-			}
-			
-			table {
-				border : solid 1px black;
-				border-spacing: 0;
-			}
-			
-			td {
-				border : solid 1px black;
-				height:25px;
-				width:25px;
-				text-align:center;
-				border-spacing: 0;
-			}
-			
-			.cache {
-			display:none;
-			}
+    <!-- Script JavaScript -->
+    <script>
+        var enonce = document.getElementById("enonce");
 
-			#affiche {
-			margin:25px 0px 25px 0px;
-			}
-			
-			body {
-				display:flex;
-				color:#ffffff;
-				background-color:#7f7f7f;
-				font-family: sans-serif;
-				font-weight:bold;
-				font-size:14px;
-			}
-			
-			a, a:visited {
-				color:#ffffff;
-			}
-			
-			.vide{
-				background-color:#7f7f7f;
-			}
-			
-			.barre{
+        for (let i = 0; i < 14; i++) {
+            let a11, a12, a21, a22, b11, b12, b21, b22;
+            a11 = Math.floor(Math.random() * 8) + 1;
+            a12 = Math.floor(Math.random() * 8) + 1;
+            a21 = Math.floor(Math.random() * 8) + 1;
+            a22 = Math.floor(Math.random() * 8) + 1;
+            b11 = Math.floor(Math.random() * 8) + 1;
+            b12 = Math.floor(Math.random() * 8) + 1;
+            b21 = Math.floor(Math.random() * 8) + 1;
+            b22 = Math.floor(Math.random() * 8) + 1;
 
-				border-top : solid 2px black;
-			}
-			
-			.plein{
-				background-color:grey;
-				color:grey;
-				width:35px;
-				height:35px;
-			}
-			
-			@media print{
-				#saut_page {
-					page-break-before: always;
-				}
-			}
-			
-	</style>
+            // Correction cachée
+            enonce.innerHTML += `
+                <div class="cache correction">
+                    <center><span> ** Correction sujet ${i + 1} **</span></center>
+                    <div>
+                        <div style="display:flex; margin-left:30px;margin-bottom:10px;">
+                            <div style="display:flex; flex-direction:column;">
+                                <div style="margin-bottom:10px;">Matrice A + B :</div>
+                                <div style="display:flex;width:110px;">
+                                    <div style="border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                                    <div style="margin: 15px;width:70px;">${a11 + b11}</div>
+                                    <div style="margin: 15px;width:70px;">${a12 + b12}</div>
+                                    <div style="border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                                </div>
+                                <div style="display:flex;width:110px;">
+                                    <div style="border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                                    <div style="margin: 15px;width:70px;">${a21 + b21}</div>
+                                    <div style="margin: 15px;width:70px;">${a22 + b22}</div>
+                                    <div style="border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-direction:column;margin-left:100px;">
+                                <div style="margin-bottom:10px;">Matrice A - B :</div>
+                                <div style="display:flex;width:110px;">
+                                    <div style="border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                                    <div style="margin: 15px;width:70px;">${a11 - b11}</div>
+                                    <div style="margin: 15px;width:70px;">${a12 - b12}</div>
+                                    <div style="border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                                </div>
+                                <div style="display:flex;width:110px;">
+                                    <div style="border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                                    <div style="margin: 15px;width:70px;">${a21 - b21}</div>
+                                    <div style="margin: 15px;width:70px;">${a22 - b22}</div>
+                                    <div style="border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            `;
 
-<script>
+            // Enoncé
+            enonce.innerHTML += `
+                <br>
+                <p>NOM : _________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PRENOM : _________________________</p>
+                <center>** Sujet numéro ${i + 1} **</center>
+                <hr>
+                <div style="display:flex; margin-top:25px;margin-left:30px;">
+                    <div style="display:flex; flex-direction:column;">
+                        <div style="margin-bottom:10px;">Matrice A :</div>
+                        <div style="display:flex;">
+                            <div style="border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                            <div style="margin: 15px;">${a11}</div>
+                            <div style="margin: 15px;">${a12}</div>
+                            <div style="border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                        </div>
+                        <div style="display:flex;">
+                            <div style="border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                            <div style="margin: 15px;">${a21}</div>
+                            <div style="margin: 15px;">${a22}</div>
+                            <div style="border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column;margin-left:100px;">
+                        <div style="margin-bottom:10px;">Matrice B :</div>
+                        <div style="display:flex;">
+                            <div style="border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                            <div style="margin: 15px;">${b11}</div>
+                            <div style="margin: 15px;">${b12}</div>
+                            <div style="border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                        </div>
+                        <div style="display:flex;">
+                            <div style="border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);">&nbsp;</div>
+                            <div style="margin: 15px;">${b21}</div>
+                            <div style="margin: 15px;">${b22}</div>
+                            <div style="border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:25px;margin-left:30px;">Calculer la matrice A + B, puis la matrice A - B</div>
+                </div>
+                <button class="affiche">Afficher la correction</button>
+                <div id="saut_page"></div>
+            `;
+        }
 
-	var enonce=document.getElementById("enonce");
-	let sujet;
-	let correction;
-	
-	for(let i=0; i<14;i++)
-	{
+        // Gestion de l'affichage des corrections
+        document.querySelectorAll('.affiche').forEach((button, index) => {
+            button.addEventListener('click', function () {
+                let correctionDiv = this.previousElementSibling.previousElementSibling;
+                correctionDiv.classList.toggle('cache');
+                this.textContent = correctionDiv.classList.contains('cache') ? 'Afficher la correction' : 'Masquer la correction';
+            });
+        });
 
-		let a11,a12,a21,a22,b11,b12,b21,b22
-		a11= Math.floor(Math.random()*8) + 1
-		a12= Math.floor(Math.random()*8) + 1
-		a21= Math.floor(Math.random()*8) + 1
-		a22= Math.floor(Math.random()*8) + 1
-		b11= Math.floor(Math.random()*8) + 1
-		b12= Math.floor(Math.random()*8) + 1
-		b21= Math.floor(Math.random()*8) + 1
-		b22= Math.floor(Math.random()*8) + 1
-		
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
 
-		enonce.innerHTML+= "<div id=\"reponse\" ><center><span> ** correction sujet "+
-							i+" **</span></center>"+
-							"<div> <div style=\"display:flex; margin-left:30px;margin-bottom:10px;\">" +
-								"<div style=\"display:flex; flex-direction:column;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice A + B :</div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a11+b11)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a12+b12)+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a21+b21)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a22+b22)+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								
-								"<div style=\"display:flex; flex-direction:column;margin-left:100px;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice A - B :</div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a11-b11)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a12-b12)+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a21-b21)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a22-b22)+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-							"</div></div><hr>";	
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
 
-		
-		enonce.innerHTML+=" <br>NOM : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
-		"PRENOM : <br>"+
-		"<center>** sujet numéro "+i+" **</center></span><hr>";
-
-		
-
-		enonce.innerHTML+="<div style=\"display:flex; margin-top:25px;margin-left:30px;\">" +
-								"<div style=\"display:flex; flex-direction:column;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice A :</div>"+
-									"<div style=\"display:flex;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+a11+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+a12+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+a21+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+a22+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								
-								"<div style=\"display:flex; flex-direction:column;margin-left:100px;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice B :</div>"+
-									"<div style=\"display:flex;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+b11+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+b12+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+b21+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+b22+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								"<div style=\"margin-top:25px;margin-left:30px;\"> Calculer la matrice A + B, puis la matrice A - B</div>"+
-							"</div><div id=\"saut_page\"></div>";
-
-	}
-
-
-</script>
-
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
+    </script>
 </body>
-</html> 
+</html>

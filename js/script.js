@@ -12,3 +12,33 @@ for (let i = 0; i < liste_h2.length; i++) {
         }
     });
 }
+
+// Gestion du mode sombre
+const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+const currentTheme = localStorage.getItem('theme');
+
+// Initialisation du thème
+if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggleDarkModeBtn.textContent = 'Mode Clair';
+} else if (currentTheme === 'light') {
+    document.body.classList.remove('dark-mode');
+    toggleDarkModeBtn.textContent = 'Mode Sombre';
+} else if (prefersDarkScheme.matches) {
+    document.body.classList.add('dark-mode');
+    toggleDarkModeBtn.textContent = 'Mode Clair';
+}
+
+// Événement au clic sur le bouton
+toggleDarkModeBtn.addEventListener('click', function () {
+    document.body.classList.toggle('dark-mode');
+    let theme = 'light';
+    if (document.body.classList.contains('dark-mode')) {
+        theme = 'dark';
+        toggleDarkModeBtn.textContent = 'Mode Clair';
+    } else {
+        toggleDarkModeBtn.textContent = 'Mode Sombre';
+    }
+    localStorage.setItem('theme', theme);
+});

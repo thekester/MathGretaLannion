@@ -1,165 +1,356 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <title>Tableaux de Karnaugh avec Mode Sombre</title>
+    <!-- Lien vers le fichier CSS principal -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Lien vers Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #FFFFFF;
+            --text-color: #000000;
+            --table-border-color: #000000;
+            --link-color: #0066cc;
+            --button-bg-color: #000000;
+            --button-text-color: #FFFFFF;
+            --header-bg-color: #f4f4f4;
+            --cell-bg-color: #f9f9f9;
+            --highlight-color: grey;
+        }
 
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #E0E0E0;
+            --table-border-color: #E0E0E0;
+            --link-color: #8ab4f8;
+            --button-bg-color: #E0E0E0;
+            --button-text-color: #121212;
+            --header-bg-color: #1f1f1f;
+            --cell-bg-color: #1e1e1e;
+            --highlight-color: #555;
+        }
+
+        /* Styles généraux */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Liens */
+        a, a:visited {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            z-index: 1000;
+        }
+
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles spécifiques */
+        table {
+            margin-top: 10px;
+            border: solid 1px var(--table-border-color);
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            transition: border-color 0.3s ease;
+        }
+
+        td, th {
+            border: solid 1px var(--table-border-color);
+            height: 35px;
+            width: 25px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+            background-color: var(--cell-bg-color);
+        }
+
+        tr {
+            border-spacing: 0;
+        }
+
+        /* Classes pour cacher/afficher les éléments */
+        .cache {
+            display: none;
+        }
+
+        /* Conteneur principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Styles pour le header */
+        header {
+            background-color: var(--header-bg-color);
+            padding: 10px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Styles pour le footer */
+        footer {
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Styles pour les éléments personnalisés */
+        .vide {
+            background-color: var(--background-color);
+            color: var(--background-color);
+        }
+
+        .barre {
+            border-top: solid 2px var(--text-color);
+            display: inline-block;
+        }
+
+        .plein {
+            background-color: var(--highlight-color);
+            color: var(--highlight-color);
+            width: 35px;
+            height: 35px;
+            display: inline-block;
+        }
+
+        /* Styles pour les sujets */
+        .sujet {
+            margin-bottom: 40px;
+            page-break-after: always;
+        }
+
+        .sujet h2 {
+            margin-bottom: 10px;
+        }
+
+        .correction {
+            margin-top: 20px;
+        }
+
+        /* Style pour le bouton afficher la réponse */
+        .affiche {
+            margin: 25px 0;
+            padding: 10px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .affiche:hover {
+            opacity: 0.8;
+        }
+
+        /* Style pour les expressions */
+        .expression {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Flex container for corrections */
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .flex-item {
+            flex: 1 1 45%;
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Bouton pour le mode sombre -->
+    <button id="toggle-dark-mode">Mode Sombre</button>
 
-<div id="enonce"> </div>
+    <div class="container">
+        <header>
+            <h1>Tableaux de Karnaugh</h1>
+        </header>
 
-	<style>
-			tr {
-				border-spacing: 0;
-			}
-			
-			table {
-				border : solid 1px black;
-				border-spacing: 0;
-			}
-			
-			td {
-				border : solid 1px black;
-				height:25px;
-				width:25px;
-				text-align:center;
-				border-spacing: 0;
-			}
-			
-			.cache {
-			display:none;
-			}
+        <main id="content">
+            <!-- Le contenu généré par JavaScript sera inséré ici -->
+        </main>
 
-			#affiche {
-			margin:25px 0px 25px 0px;
-			}
-			
-			body {
-				display:flex;
-				color:#ffffff;
-				background-color:#7f7f7f;
-			}
-			
-			a, a:visited {
-				color:#ffffff;
-			}
-			
-			.vide{
-				background-color:#7f7f7f;
-			}
-			
-			.barre{
+        <footer>
+            <p>&copy; 2024 Math BTS SIO Greta Lannion</p>
+        </footer>
+    </div>
 
-				border-top : solid 2px black;
-			}
-			
-			.plein{
-				background-color:grey;
-				color:grey;
-				width:35px;
-				height:35px;
-			}
-			
-	</style>
-<script>
-	
-	function expr2html(expr)
-	{
-		let result=expr;
-		result=result.replaceAll("abarre","<span class=\"barre\">a</span>&nbsp;");
-		result=result.replaceAll("bbarre","<span class=\"barre\">b</span>&nbsp;");
-		result=result.replaceAll("cbarre","<span class=\"barre\">c</span>&nbsp;");
-		return result;
-	}
-	
-	function expr2sujet(expr)
-	{
-		let result="";
-		if (expr[0]==1)
-			result+="a b c + "
-		if (expr[1]==1)
-			result+="a b cbarre + "
-		if (expr[2]==1)
-			result+="a bbarre cbarre + "
-		if (expr[3]==1)
-			result+="a bbarre c + "
-		if (expr[4]==1)
-			result+="abarre b c + "
-		if (expr[5]==1)
-			result+="abarre b cbarre + "
-		if (expr[6]==1)
-			result+="abarre bbarre cbarre + "
-		if (expr[7]==1)
-			result+="abarre bbarre c + "
-			
-		result=result.substring(0, result.length-2); //retire le dernier +
-		
-		return (expr2html(result))
-			
-	}
-	
-	function karnaugh2tab(bin, barre) // barre==1 pour barre(bin)
-	{
-		let result="<table>";
-		result+="<tr><td></td><td>bc</td><td>b<span class=\"barre\">c</span></td><td><span class=\"barre\">b</span>&nbsp;<span class=\"barre\">c</span></td><td><span class=\"barre\">b</span>c</td></tr>";
-		result+="<tr><td>a</td><td>"+bin[0]+"</td><td>"+bin[1]+"</td><td>"+bin[2]+"</td><td>"+bin[3]+"</td></tr>";
-		result+="<tr><td><span class=\"barre\">a</span></td><td>"+bin[4]+"</td><td>"+bin[5]+"</td><td>"+bin[6]+"</td><td>"+bin[7]+"</td></tr>";
-		result+="</table>";
-		
-		if(barre==0)
-		{
-			result=result.replaceAll("0","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
-			result=result.replaceAll("1","<span class=\"plein\">***</span>");
-		}
-		else
-		{
-			result=result.replaceAll("1","<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
-			result=result.replaceAll("0","<span class=\"plein\">***</span>");			
-		}
-		
-		return result;
-	}
-	
+    <!-- Script JavaScript -->
+    <script>
+        // Fonction pour convertir les expressions en HTML
+        function expr2html(expr) {
+            let result = expr;
+            result = result.replaceAll("abarre", "<span class=\"barre\">a</span>&nbsp;");
+            result = result.replaceAll("bbarre", "<span class=\"barre\">b</span>&nbsp;");
+            result = result.replaceAll("cbarre", "<span class=\"barre\">c</span>&nbsp;");
+            return result;
+        }
 
+        // Fonction pour générer le sujet à partir de l'expression
+        function expr2sujet(expr) {
+            let result = "";
+            if (expr[0] == 1) result += "a b c + ";
+            if (expr[1] == 1) result += "a b cbarre + ";
+            if (expr[2] == 1) result += "a bbarre cbarre + ";
+            if (expr[3] == 1) result += "a bbarre c + ";
+            if (expr[4] == 1) result += "abarre b c + ";
+            if (expr[5] == 1) result += "abarre b cbarre + ";
+            if (expr[6] == 1) result += "abarre bbarre cbarre + ";
+            if (expr[7] == 1) result += "abarre bbarre c + ";
 
-</script>
+            result = result.substring(0, result.length - 2); // Retire le dernier "+ "
+            return expr2html(result);
+        }
 
+        // Fonction pour générer le tableau de Karnaugh
+        function karnaugh2tab(bin, barre) {
+            let result = "<table>";
+            result += "<tr><td></td><td>bc</td><td>b<span class=\"barre\">c</span></td><td><span class=\"barre\">b</span>c<span class=\"barre\"></span></td><td><span class=\"barre\">b</span><span class=\"barre\">c</span></td></tr>";
+            result += "<tr><td>a</td><td>" + bin[0] + "</td><td>" + bin[1] + "</td><td>" + bin[3] + "</td><td>" + bin[2] + "</td></tr>";
+            result += "<tr><td><span class=\"barre\">a</span></td><td>" + bin[4] + "</td><td>" + bin[5] + "</td><td>" + bin[7] + "</td><td>" + bin[6] + "</td></tr>";
+            result += "</table>";
 
+            if (barre == 0) {
+                result = result.replaceAll("0", "<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                result = result.replaceAll("1", "<span class=\"plein\">***</span>");
+            } else {
+                result = result.replaceAll("1", "<span class=\"vide\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                result = result.replaceAll("0", "<span class=\"plein\">***</span>");
+            }
 
-<script>
+            return result;
+        }
 
-	
-	
-	var tablo = new Array ("a*11110000*abarre","abarre*00001111*a","b*11001100*bbarre","bbarre*00110011*b","c*10011001*cbarre","cbarre*01100110*c","bc+bbarrecbarre*10101010*bcbarre+bbarrec","bcbarre+bbarrec*01010101*bc+bbarrecbarre","ab+abarrebbarre*11000011*abbarre+abarreb","abarreb+abbarre*00111100*abarrebbarre+ab","ac+abarrecbarre*10010110*acbarre+abarrec","abarrec+acbarre*01101001*abarrecbarre+ac");
+        // Tableau des expressions
+        var tablo = [
+            "a*11110000*abarre",
+            "abarre*00001111*a",
+            "b*11001100*bbarre",
+            "bbarre*00110011*b",
+            "c*10011001*cbarre",
+            "cbarre*01100110*c",
+            "bc+bbarrecbarre*10101010*bcbarre+bbarrec",
+            "bcbarre+bbarrec*01010101*bc+bbarrecbarre",
+            "ab+abarrebbarre*11000011*abbarre+abarreb",
+            "abarreb+abbarre*00111100*abarrebbarre+ab",
+            "ac+abarrecbarre*10010110*acbarre+abarrec",
+            "abarrec+acbarre*01101001*abarrecbarre+ac"
+        ];
 
-	let expression;
-	var enonce=document.getElementById("enonce");
-	let sujet;
-	let correction;
-	
-	for(let i=0; i<tablo.length;i++)
-	{
-		
-		enonce.innerHTML+=" NOM : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+
-		"PRENOM : <br>"+
-		"<center>** sujet numéro "+i+" **</center></span><br><hr>";
+        let content = document.getElementById('content');
 
-		expression=tablo[i];
-		sujet=tablo[i].split("*");//0 => solution 1=> enonce 2=> solutionbarre
-		
-		enonce.innerHTML+="<p> Représenter le tableau de Karnaugh de l'expression suivante : "+expr2sujet(sujet[1])+" puis en donner une forme simplifiée. Faire de même avec le complément ( tableau de Karnaugh et sa forme simplifiée )</p>"+
-							"<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> "
+        for (let i = 0; i < tablo.length; i++) {
+            let expression = tablo[i];
+            let sujet = expression.split("*"); // [0] solution, [1] enoncé, [2] solution barre
 
- 		enonce.innerHTML+="<div id=\"reponse\" ><center><span> ** correction sujet "+
-							i+" **</span></center>"+
-							"<p> Représenter le tableau de Karnaugh de l'expression suivante : "+expr2sujet(sujet[1])+
-							" puis en donner une forme simplifiée. Faire de même avec le complément ( tableau de Karnaugh et sa forme simplifiée )</p>"+
-							"<div style=\"display:flex;justify-content:space-between;\"><p>forme simplifiée : "+expr2html(sujet[0])+" &nbsp;<br>tableau de Karnaugh : <br>"+karnaugh2tab(sujet[1], 0)+" </p>"+
-							"<p>forme simplifiée du complément : "+expr2html(sujet[2])+" &nbsp;<br>Karnaugh du complément : <br>"+karnaugh2tab(sujet[1], 1)+"</p></div></div>"+
-							"<p style=\"page-break-before: always;\"></p>";  // pour generateur interro
-				
-	}
+            // Création du conteneur du sujet
+            let sujetDiv = document.createElement('div');
+            sujetDiv.classList.add('sujet');
 
-</script>
+            // Contenu du sujet
+            sujetDiv.innerHTML = `
+                <h2>** Sujet numéro ${i + 1} **</h2>
+                <p>Nom : _________________________ &nbsp;&nbsp; Prénom : _________________________</p>
+                <hr>
+                <p>Représenter le tableau de Karnaugh de l'expression suivante :<br><span class="expression">${expr2sujet(sujet[1])}</span></p>
+                <p>Puis en donner une forme simplifiée. Faire de même avec le complément (tableau de Karnaugh et sa forme simplifiée).</p>
+                <div style="height: 400px;"></div>
+                <button class="affiche">Afficher la correction</button>
+                <div class="correction cache">
+                    <hr>
+                    <div class="flex-container">
+                        <div class="flex-item">
+                            <h3>Forme simplifiée :</h3>
+                            <p>${expr2html(sujet[0])}</p>
+                            <h3>Tableau de Karnaugh :</h3>
+                            ${karnaugh2tab(sujet[1], 0)}
+                        </div>
+                        <div class="flex-item">
+                            <h3>Forme simplifiée du complément :</h3>
+                            <p>${expr2html(sujet[2])}</p>
+                            <h3>Karnaugh du complément :</h3>
+                            ${karnaugh2tab(sujet[1], 1)}
+                        </div>
+                    </div>
+                </div>
+            `;
 
+            content.appendChild(sujetDiv);
+        }
+
+        // Gestion de l'affichage des corrections
+        document.querySelectorAll('.affiche').forEach(button => {
+            button.addEventListener('click', function () {
+                let correctionDiv = this.nextElementSibling;
+                correctionDiv.classList.toggle('cache');
+                this.textContent = correctionDiv.classList.contains('cache') ? 'Afficher la correction' : 'Masquer la correction';
+            });
+        });
+
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
+
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
+    </script>
 </body>
-</html> 
+</html>

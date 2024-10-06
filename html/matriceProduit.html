@@ -1,119 +1,204 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur d'exercice sur les additions et soustractions de matrices</title>
+    <!-- Lien vers Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #555555;
+            --text-color: #ffffff;
+            --link-color: #ffffff;
+            --border-color: #ffffff;
+            --button-bg-color: #000000;
+            --button-text-color: #ffffff;
+        }
 
-        <title>générateur exercice sur les additions et soustractions de matrices</title>
-    </head>
-    <body>
-	
-		<style>
-			table {
-			border : solid 1px white;
-			}
-			td {
-			border : solid 1px white;
-			width:200px;
-			height:40px;
-			text-align:center;
-			}
-			
-			body {
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --link-color: #8ab4f8;
+            --border-color: #e0e0e0;
+            --button-bg-color: #e0e0e0;
+            --button-text-color: #121212;
+        }
 
-			color:#ffffff;
-			background-color:##555555;
-			font-family: sans-serif;
-			font-weight:bold;
-			font-size:15px;
-			}
-			
-			cache {
-			display:none;
-			}
+        /* Styles généraux */
+        body {
+            color: var(--text-color);
+            background-color: var(--background-color);
+            font-family: 'Open Sans', sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
 
-			#affiche {
-			margin:25px 0px 25px 0px;
-			}
-		</style>
-		<header>
-			<p><a href="https://maristudy.github.io/MathGretaLannion/"> gitpage </a> </p>
-		</header>
-		<main>
-			<a href="../index.html">Retour à l'accueil</a>
-			<div class="enonce">
-			
-			</div>
-			<p id="affiche">Afficher la réponse</p>
-			<div class="reponse">
-			
-			</div>
+        /* Liens */
+        a, a:visited {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-		</main>
-		<footer>
-			<p>Le footer </p>
-		</footer>
-		
-		<script>
-			
-			
-			let a11,a12,a21,a22,b11,b12,b21,b22
-			a11= Math.floor(Math.random()*8) + 1
-			a12= Math.floor(Math.random()*8) + 1
-			a21= Math.floor(Math.random()*8) + 1
-			a22= Math.floor(Math.random()*8) + 1
-			b11= Math.floor(Math.random()*8) + 1
-			b12= Math.floor(Math.random()*8) + 1
-			b21= Math.floor(Math.random()*8) + 1
-			b22= Math.floor(Math.random()*8) + 1
-			coef= Math.floor(Math.random()*7) + 2
+        a:hover {
+            text-decoration: underline;
+        }
 
-			enonce = document.getElementsByClassName("enonce")[0];
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            z-index: 1000;
+        }
 
-			enonce.innerHTML="<div style=\"display:flex; margin-top:25px;margin-left:30px;\">" +
-								"<div style=\"display:flex; flex-direction:column;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice A :</div>"+
-									"<div style=\"display:flex;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+a11+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+a12+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+a21+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+a22+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								
-								"<div style=\"display:flex; flex-direction:column;margin-left:100px;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice B :</div>"+
-									"<div style=\"display:flex;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+b11+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+b12+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;\">"+b21+"</div><div style=\"margin: 15px 15px 15px 15px;\">"+b22+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								"<div style=\"margin-top:25px;margin-left:30px;\"> Calculer la matrice "+coef+"A, puis la matrice A x B</div>"+
-							"</div>"
-							
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles spécifiques */
+        table {
+            border: solid 1px var(--border-color);
+        }
+
+        td {
+            border: solid 1px var(--border-color);
+            width: 200px;
+            height: 40px;
+            text-align: center;
+        }
+
+        .cache {
+            display: none;
+        }
+
+        #affiche {
+            margin: 25px 0;
+            padding: 10px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            max-width: 200px;
+        }
+
+        #affiche:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Bouton pour le mode sombre -->
+    <button id="toggle-dark-mode">Mode Sombre</button>
+
+    <header>
+        <p><a href="https://maristudy.github.io/MathGretaLannion/">GitPage</a></p>
+    </header>
+    <main>
+        <a href="../index.html">Retour à l'accueil</a>
+        <div class="enonce"></div>
+        <p id="affiche">Afficher la réponse</p>
+        <div class="reponse"></div>
+    </main>
+    <footer>
+        <p>Le footer</p>
+    </footer>
+
+    <!-- Script JavaScript -->
+    <script>
+        // Génération des matrices
+        let a11, a12, a21, a22, b11, b12, b21, b22;
+        a11 = Math.floor(Math.random() * 8) + 1;
+        a12 = Math.floor(Math.random() * 8) + 1;
+        a21 = Math.floor(Math.random() * 8) + 1;
+        a22 = Math.floor(Math.random() * 8) + 1;
+        b11 = Math.floor(Math.random() * 8) + 1;
+        b12 = Math.floor(Math.random() * 8) + 1;
+        b21 = Math.floor(Math.random() * 8) + 1;
+        b22 = Math.floor(Math.random() * 8) + 1;
+        coef = Math.floor(Math.random() * 7) + 2;
+
+        let enonce = document.getElementsByClassName("enonce")[0];
+
+        enonce.innerHTML = "<div style=\"display:flex; margin-top:25px;margin-left:30px;\">" +
+            "<div style=\"display:flex; flex-direction:column;\">" +
+            "<div style=\"margin-bottom:10px;\">Matrice A :</div>" +
+            "<div style=\"display:flex;\"><div style=\"border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;\">" + a11 + "</div><div style=\"margin: 15px;\">" + a12 + "</div><div style=\"border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;\">" + a21 + "</div><div style=\"margin: 15px;\">" + a22 + "</div><div style=\"border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "</div>" +
+
+            "<div style=\"display:flex; flex-direction:column;margin-left:100px;\">" +
+            "<div style=\"margin-bottom:10px;\">Matrice B :</div>" +
+            "<div style=\"display:flex;\"><div style=\"border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;\">" + b11 + "</div><div style=\"margin: 15px;\">" + b12 + "</div><div style=\"border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "<div style=\"display:flex;\"><div style=\"border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;\">" + b21 + "</div><div style=\"margin: 15px;\">" + b22 + "</div><div style=\"border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "</div>" +
+            "<div style=\"margin-top:25px;margin-left:30px;\"> Calculer la matrice " + coef + "A, puis la matrice A x B</div>" +
+            "</div>";
 
 
+        let reponse = document.getElementsByClassName("reponse")[0];
+        reponse.innerHTML = "<div  id=\"reponse\" class=\"cache\"> <div style=\"display:flex; margin-top:25px;margin-left:30px;margin-bottom:30px;\">" +
+            "<div style=\"display:flex; flex-direction:column;\">" +
+            "<div style=\"margin-bottom:10px;\">Matrice  " + coef + "A :</div>" +
+            "<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;width:70px;\">" + (a11 * coef) + "</div><div style=\"margin: 15px;width:70px;\">" + (a12 * coef) + "</div><div style=\"border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;width:70px;\">" + (a21 * coef) + "</div><div style=\"margin: 15px;width:70px;\">" + (a22 * coef) + "</div><div style=\"border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "</div>" +
 
-			reponse = document.getElementsByClassName("reponse")[0];
-			reponse.innerHTML= "<div  id=\"reponse\" class=\"cache\"> <div style=\"display:flex; margin-top:25px;margin-left:30px;margin-bottom:30px;\">" +
-								"<div style=\"display:flex; flex-direction:column;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice  "+coef+"A :</div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a11*coef)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a12*coef)+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a21*coef)+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+(a22*coef)+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-								
-								"<div style=\"display:flex; flex-direction:column;margin-left:100px;\">"+
-									"<div style=\"margin-bottom:10px;\">Matrice A x B :</div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+((a11*b11)+(a12*b21))+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+((a11*b12)+(a12*b22))+"</div><div style=\"border-top: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-									"<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid black; border-left: 2px solid black;\">&nbsp;</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+((a21*b11)+(a22*b21))+"</div><div style=\"margin: 15px 15px 15px 15px;width:70px;\">"+((a21*b12)+(a22*b22))+"</div><div style=\"border-bottom: 2px solid black; border-right: 2px solid black;\">&nbsp;</div></div>"+
-								"</div>"+
-							"</div></div>";		
+            "<div style=\"display:flex; flex-direction:column;margin-left:100px;\">" +
+            "<div style=\"margin-bottom:10px;\">Matrice A x B :</div>" +
+            "<div style=\"display:flex;width:110px;\"><div style=\"border-top: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;width:70px;\">" + ((a11 * b11) + (a12 * b21)) + "</div><div style=\"margin: 15px;width:70px;\">" + ((a11 * b12) + (a12 * b22)) + "</div><div style=\"border-top: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "<div style=\"display:flex;width:110px;\"><div style=\"border-bottom: 2px solid var(--border-color); border-left: 2px solid var(--border-color);\">&nbsp;</div><div style=\"margin: 15px;width:70px;\">" + ((a21 * b11) + (a22 * b21)) + "</div><div style=\"margin: 15px;width:70px;\">" + ((a21 * b12) + (a22 * b22)) + "</div><div style=\"border-bottom: 2px solid var(--border-color); border-right: 2px solid var(--border-color);\">&nbsp;</div></div>" +
+            "</div>" +
+            "</div></div>";
 
+        let affiche = document.getElementById("affiche");
+        affiche.addEventListener("click", () => {
+            document.getElementById("reponse").classList.toggle("cache");
+            affiche.textContent = document.getElementById("reponse").classList.contains("cache") ? "Afficher la réponse" : "Masquer la réponse";
+        });
 
-			affiche=document.getElementById("affiche");
-			affiche.addEventListener("click",() => {
-				tab=document.getElementById("reponse").classList.toggle("cache");
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
 
-		
-		
-			});
-			
-		</script>
-		
-	</body>
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
+
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
+    </script>
+</body>
 </html>

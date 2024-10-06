@@ -1,138 +1,269 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <title>Générateur de fonctions logiques</title>
+    <!-- Lien vers le fichier CSS principal -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Lien vers Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Styles spécifiques à cette page -->
+    <style>
+        /* Variables CSS pour les thèmes */
+        :root {
+            --background-color: #FFFFFF;
+            --text-color: #000000;
+            --table-border-color: #000000;
+            --header-bg-color: #f4f4f4;
+            --button-bg-color: #000000;
+            --button-text-color: #ffffff;
+            --link-color: #0066cc;
+        }
 
+        body.dark-mode {
+            --background-color: #121212;
+            --text-color: #E0E0E0;
+            --table-border-color: #E0E0E0;
+            --header-bg-color: #1f1f1f;
+            --button-bg-color: #E0E0E0;
+            --button-text-color: #121212;
+            --link-color: #8ab4f8;
+        }
+
+        /* Styles généraux */
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Bouton pour le mode sombre */
+        #toggle-dark-mode {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            background-color: var(--button-bg-color);
+            color: var(--button-text-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #toggle-dark-mode:hover {
+            opacity: 0.8;
+        }
+
+        /* Styles spécifiques */
+        table {
+            margin-top: 10px;
+            border: solid 1px var(--table-border-color);
+            border-spacing: 0;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+        
+        td {
+            border: solid 1px var(--table-border-color);
+            height: 40px;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        tr {
+            border-spacing: 0;
+        }
+
+        /* Liens */
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg-color);
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Correction cachée par défaut */
+        .cache {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-	<style>
-			tr {
-				border-spacing: 0;
-			}
-			
-			table {
-				border : solid 1px black;
-				border-spacing: 0;
-			}
-			
-			td {
-				border : solid 1px black;
-				height:40px;
-				text-align:center;
-				border-spacing: 0;
-			}
-	</style>
-<script>
+    <!-- Bouton pour le mode sombre -->
+    <button id="toggle-dark-mode">Mode Sombre</button>
 
+    <header>
+        <h1>Générateur de fonctions logiques</h1>
+    </header>
 
-for (i=0; i<12; i++)
-	{
+    <main id="content">
+        <!-- Le contenu généré par JavaScript sera inséré ici -->
+    </main>
 
-	//prendre un nombre et le convertir en binaire puis en hexa
+    <footer>
+        <p>&copy; 2024 Math BTS SIO Greta Lannion</p>
+    </footer>
 
-	var debut=new Array("( a et b )","( non(a) et b )","( non(a) et non(b) )","( a et non(b) )");
-	var milieu=new Array(" et "," ou ");
-	var fin=new Array("( c )","( non(c) )");
+    <!-- Script JavaScript -->
+    <script>
+        // Génération des fonctions logiques
+        let content = document.getElementById('content');
 
-	var DebutFL = Math.floor(Math.random()*4);
-	var MilieuFL = Math.floor(Math.random()*2);
-	var FinFL = Math.floor(Math.random()*2);
+        for (let i = 1; i <= 12; i++) {
+            // Définition des éléments de la fonction logique
+            let debut = ["( a et b )", "( non(a) et b )", "( non(a) et non(b) )", "( a et non(b) )"];
+            let milieu = [" et ", " ou "];
+            let fin = ["( c )", "( non(c) )"];
 
-	var FonctionLogique = "( "+ debut[DebutFL] + milieu[MilieuFL] + fin[FinFL] +" ) ";
+            let DebutFL = Math.floor(Math.random() * 4);
+            let MilieuFL = Math.floor(Math.random() * 2);
+            let FinFL = Math.floor(Math.random() * 2);
 
-	document.write("<center><b> - Les fonctions logiques - </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sujet "+i+"<BR></center>");
-	document.write("<b>NOM : </b><BR>");
-	document.write("<b>PRENOM : </b><BR>");
-	document.write("<HR>");
+            let FonctionLogique = "( " + debut[DebutFL] + milieu[MilieuFL] + fin[FinFL] + " ) ";
 
-	document.write("Donner la table de v&eacute;rit&eacute; de la fonction logique suivante...<BR>");
-	document.write("Fonction logique : " + FonctionLogique );
+            // Création des éléments pour l'affichage
+            let sujetDiv = document.createElement('div');
+            sujetDiv.classList.add('sujet');
 
-	document.write("<BR><BR>");
-	document.write("<table border = 1 >");
-	document.write("<tr><td width = 15px>a</td><td width = 15px>b</td><td width = 15px>c</td><td width = 550px></td></tr>");
+            sujetDiv.innerHTML = `
+                <center><b>- Les fonctions logiques -</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sujet ${i}</center>
+                <p><b>NOM :</b></p>
+                <p><b>PRÉNOM :</b></p>
+                <hr>
+                <p>Donner la table de vérité de la fonction logique suivante...</p>
+                <p><b>Fonction logique :</b> ${FonctionLogique}</p>
+                <br>
+                <table>
+                    <tr>
+                        <td>a</td>
+                        <td>b</td>
+                        <td>c</td>
+                        <td></td>
+                    </tr>
+                    ${Array(8).fill('<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>').join('')}
+                </table>
+                <br>
+                <button class="show-correction">Afficher la correction</button>
+                <div class="correction cache">
+                    <hr>
+                    <center><b>CORRECTION - Les fonctions logiques -</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sujet ${i}</center>
+                    <hr>
+                    <p>Fonction logique : ${FonctionLogique}</p>
+                    <br>
+                    <table>
+                        <tr>
+                            <td>a</td>
+                            <td>b</td>
+                            <td>c</td>
+                            <td>${debut[DebutFL]}</td>
+                            <td>${fin[FinFL]}</td>
+                            <td>${FonctionLogique}</td>
+                        </tr>
+                        ${generateTruthTable(debut[DebutFL], milieu[MilieuFL], fin[FinFL])}
+                    </table>
+                </div>
+                <hr style="page-break-after: always;">
+            `;
 
-		for(j=0;j<8;j++)
-		{
-		
-		document.write("<tr></td><td height = 30px>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;</td></tr>");
-	}
+            content.appendChild(sujetDiv);
+        }
 
-	document.write("</table>");
+        // Fonction pour générer la table de vérité
+        function generateTruthTable(debutFL, milieuFL, finFL) {
+            let rows = '';
+            for (let j = 0; j < 8; j++) {
+                let binary = j.toString(2).padStart(3, '0');
+                let [a, b, c] = binary.split('').map(Number);
 
-	document.write("<BR><HR><center><b>CORRECTION - Les fonctions logiques - </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sujet "+i+"</center><HR>");
-	document.write("Donner la table de v&eacute;rit&eacute; de la fonction logique suivante...<BR>");
-	document.write("Fonction logique : " + FonctionLogique );
+                let ba = Boolean(a);
+                let bb = Boolean(b);
+                let bc = Boolean(c);
 
-	document.write("<BR>");
-	document.write("<table border = 1 >");
-	document.write("<tr><td width = 15px>a</td><td width = 15px>b</td><td width = 15px>c</td><td><font size=2>"+debut[DebutFL]+"</font></td><td><font size=2>"+fin[FinFL]+"</font></td><td><font size=2>"+FonctionLogique+"</font></td></tr>");
+                let e;
+                switch (debut.indexOf(debutFL)) {
+                    case 0: e = ba && bb; break;
+                    case 1: e = !ba && bb; break;
+                    case 2: e = !ba && !bb; break;
+                    case 3: e = ba && !bb; break;
+                }
 
-		for(j=0;j<8;j++)
-		{
-		var tempo = j.toString(2);
-		if(tempo.length==1)
-		{
-		a=0;
-		b=0;
-		c=tempo[0];
+                let f = (fin.indexOf(finFL) === 0) ? bc : !bc;
 
-		}
-		if(tempo.length==2)
-		{
-		a=0;
-		b=tempo[0];
-		c=tempo[1];
-		}
-		if(tempo.length==3)
-		{
+                let g = (milieuFL === " et ") ? (e && f) : (e || f);
 
-		a=tempo[0];
-		b=tempo[1];
-		c=tempo[2];
-		}
-		if(tempo.length==4)
-		{
-		a=tempo[0];
-		b=tempo[1];
-		c=tempo[2];
+                rows += `<tr>
+                    <td>${a}</td>
+                    <td>${b}</td>
+                    <td>${c}</td>
+                    <td>${Number(e)}</td>
+                    <td>${Number(f)}</td>
+                    <td>${Number(g)}</td>
+                </tr>`;
+            }
+            return rows;
+        }
 
-		}
+        // Gestion du mode sombre
+        const toggleDarkModeBtn = document.getElementById('toggle-dark-mode');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
 
-		if (a==0) { var ba=new Boolean(false); }
-		if (a==1) { var ba=new Boolean(true); }  
-		if (b==0) { var bb=new Boolean(false); }
-		if (b==1) { var bb=new Boolean(true); }
-		if ( DebutFL==0) { var e =new Boolean(); e = ( ba.valueOf() && bb.valueOf() ); }
-		if ( DebutFL==1) { var e =new Boolean(); e = ( (!(ba.valueOf())) && bb.valueOf() ); }
-		if ( DebutFL==2) { var e =new Boolean(); e = ( (!(ba.valueOf())) && (!(bb.valueOf())) ); }
-		if ( DebutFL==3) { var e =new Boolean(); e = ( ba.valueOf() && (!(bb.valueOf())) ); }
-		if ( e.valueOf()==true ) { ee=1; }
-		if ( e.valueOf()==false ) { ee=0; }    
-		if (c==0) { var bc=new Boolean(false); }
-		if (c==1) { var bc=new Boolean(true); }  
+        // Initialisation du thème
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        } else if (currentTheme === 'light') {
+            document.body.classList.remove('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Sombre';
+        } else if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            toggleDarkModeBtn.textContent = 'Mode Clair';
+        }
 
-		if ( FinFL==0) { var f =new Boolean(); f = ( bc.valueOf()  ); }
-		if ( FinFL==1) { var f =new Boolean(); f = ( (!(bc.valueOf())) ); }
+        // Événement au clic sur le bouton
+        toggleDarkModeBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                toggleDarkModeBtn.textContent = 'Mode Clair';
+            } else {
+                toggleDarkModeBtn.textContent = 'Mode Sombre';
+            }
+            localStorage.setItem('theme', theme);
+        });
 
-		if ( f.valueOf()==true ) { ff=1; }
-		if ( f.valueOf()==false ) { ff=0; }
-		if ( MilieuFL==0) { var g =new Boolean(); g = ( ee.valueOf() && ff.valueOf() ); }
-		if ( MilieuFL==1) { var g =new Boolean(); g = ( ee.valueOf() || ff.valueOf() ); }
-		if ( g.valueOf()==true ) { gg=1; }
-		if ( g.valueOf()==false ) { gg=0; }
-      
-		document.write("<tr></td><td height = 30px>"+a+"</td><td>"+b+"</td><td>"+c+"</td><td>"+ee+"</td><td>"+ff+"</td><td>"+gg+"</td></tr>");
-		}
-
-	document.write("</table>");
-
-document.write("<p style=\"page-break-before: always;\">");
-
-
-	} // fin du for 
-
-</script>
-
-
+        // Affichage de la correction au clic sur le bouton
+        document.querySelectorAll('.show-correction').forEach(button => {
+            button.addEventListener('click', function () {
+                this.nextElementSibling.classList.toggle('cache');
+                this.textContent = this.nextElementSibling.classList.contains('cache') ? 'Afficher la correction' : 'Masquer la correction';
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
